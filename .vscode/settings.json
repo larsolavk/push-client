@@ -1,0 +1,35 @@
+{
+  "editor.formatOnSave": true,
+  "prettier.trailingComma": "es5",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    ".vscode/chrome": true,
+    "build/": true,
+    "typings/": true
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "javascriptreact"],
+  // "workbench.colorCustomizations": {
+  //   "activityBar.background": "#ffb733",
+  //   "activityBar.activeBorder": "#008053",
+  //   "activityBar.foreground": "#15202b",
+  //   "activityBar.inactiveForeground": "#15202b99",
+  //   "activityBarBadge.background": "#008053",
+  //   "activityBarBadge.foreground": "#e7e7e7",
+  //   "titleBar.activeBackground": "#ffa500",
+  //   "titleBar.inactiveBackground": "#ffa50099",
+  //   "titleBar.activeForeground": "#15202b",
+  //   "titleBar.inactiveForeground": "#15202b99",
+  //   "statusBar.background": "#ffa500",
+  //   "statusBarItem.hoverBackground": "#cc8400",
+  //   "statusBar.foreground": "#15202b",
+  //   "panel.border": "#ffb733",
+  //   "sideBar.border": "#ffb733",
+  //   "editorGroup.border": "#ffb733",
+  //   "tab.activeBorder": "#ffb733"
+  // },
+  "javascript.implicitProjectConfig.checkJs": true,
+  "prettier.singleQuote": true
+}
