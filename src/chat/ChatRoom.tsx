@@ -1,10 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { ChatWsContext, createGuid } from './ChatWsProvider';
+import { ServiceWorkerContext } from '../ServiceWorkerProvider';
 import './Chat.scss';
 
 const ChatRoom = () => {
   const { state, sendMessage } = useContext(ChatWsContext);
+  const {
+    initialized: swInitialized,
+    subscribeToPushAsync,
+    pushSubscription,
+  } = useContext(ServiceWorkerContext);
   const [message, setMessage] = useState('');
+  const [showPushSubscription, setShowPushSubscription] = useState(false);
 
   const onChange = (e: any) => {
     setMessage(e.target.value);
@@ -20,6 +27,29 @@ const ChatRoom = () => {
   return (
     <>
       <div className="messages">
+        <div>
+          <div>
+            {`ServiceWorker er ${swInitialized ? '' : 'IKKE'} initialisert`}
+          </div>
+          <div>{`PUSH er ${pushSubscription ? '' : 'IKKE'} initialisert`}</div>
+          {!pushSubscription && (
+            <button
+              onClick={() => subscribeToPushAsync && subscribeToPushAsync()}
+            >
+              Motta pushvarsler
+            </button>
+          )}
+          {pushSubscription && (
+            <button
+              onClick={() => setShowPushSubscription(!showPushSubscription)}
+            >
+              Vis/skjul push subscription
+            </button>
+          )}
+          {pushSubscription && showPushSubscription && (
+            <div>{pushSubscription}</div>
+          )}
+        </div>
         {state.messages.map((m) => (
           <div
             key={createGuid()}
