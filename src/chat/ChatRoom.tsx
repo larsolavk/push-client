@@ -9,6 +9,7 @@ const ChatRoom = () => {
     initialized: swInitialized,
     subscribeToPushAsync,
     pushSubscription,
+    errorText,
   } = useContext(ServiceWorkerContext);
   const [message, setMessage] = useState('');
   const [showPushSubscription, setShowPushSubscription] = useState(false);
@@ -49,6 +50,7 @@ const ChatRoom = () => {
           {pushSubscription && showPushSubscription && (
             <div>{pushSubscription}</div>
           )}
+          {errorText && <div style={{ color: 'red' }}>{errorText}</div>}
         </div>
         {state.messages.map((m) => (
           <div

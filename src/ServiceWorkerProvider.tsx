@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 interface ServiceWorkerContextProps {
   initialized: boolean;
+  errorText?: string;
   pushSubscription?: string;
   subscribeToPushAsync?: () => Promise<void>;
 }
@@ -26,7 +27,8 @@ const urlBase64ToUint8Array = (base64String: string) => {
 };
 
 const ServiceWorkerProvider: React.FC = ({ children }) => {
-  const [initialized, setInitialized] = useState<boolean>(false);
+  const [initialized, setInitialized] = useState(false);
+  const [errorText, setErrorText] = useState<string>();
   const [pushSubscription, setPushSubscription] = useState<string>();
   const sw = navigator.serviceWorker;
 
@@ -44,15 +46,23 @@ const ServiceWorkerProvider: React.FC = ({ children }) => {
       console.log('PushSubscription', JSON.stringify(pushSubscription));
       setPushSubscription(JSON.stringify(pushSubscription));
     } catch (err) {
+      setErrorText(`En feil oppsto ved subscribe to push: ${err}`);
       console.error('En feil oppsto ved subscribe to push', err);
     }
   };
 
   const subscribeToPushAsync = async (): Promise<void> => {
     try {
+      if (!sw) {
+        setErrorText('Ingen sw');
+        return;
+      }
       var registration = await sw.ready;
-      return subscribeToPush(registration);
+      await subscribeToPush(registration);
     } catch (err) {
+      setErrorText(
+        `subscribeToPushAsync: En feil oppsto ved subscribe to push: ${err}`
+      );
       console.error(
         'subscribeToPushAsync: En feil oppsto ved subscribe to push',
         err
@@ -94,7 +104,7 @@ const ServiceWorkerProvider: React.FC = ({ children }) => {
 
   return (
     <ServiceWorkerContext.Provider
-      value={{ initialized, pushSubscription, subscribeToPushAsync }}
+      value={{ initialized, pushSubscription, subscribeToPushAsync, errorText }}
     >
       {children}
     </ServiceWorkerContext.Provider>
